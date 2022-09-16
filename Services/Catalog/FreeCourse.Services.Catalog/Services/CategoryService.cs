@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FreeCourse.Services.Catalog.Services
 {
-    internal class CategoryService : ICategoryService
+    public class CategoryService : ICategoryService
     {
         private readonly IMongoCollection<Category> _categoryCollection;
         private readonly IMapper _mapper;
@@ -31,11 +31,12 @@ namespace FreeCourse.Services.Catalog.Services
             return Response<List<CategoryDto>>.Success(_mapper.Map<List<CategoryDto>>(categories), 200);
         }
 
-        public async Task<Response<List<CategoryDto>>> CreateAsync(Category category)
+        public async Task<Response<CategoryDto>> CreateAsync(CategoryDto categoryDto)
         {
+            var category = _mapper.Map<Category>(categoryDto);
             await _categoryCollection.InsertOneAsync(category);
 
-            return Response<List<CategoryDto>>.Success(_mapper.Map<List<CategoryDto>>(category), 200);
+            return Response<CategoryDto>.Success(_mapper.Map<CategoryDto>(category), 200);
         }
 
         public async Task<Response<CategoryDto>> GetByIdAsync(string id)

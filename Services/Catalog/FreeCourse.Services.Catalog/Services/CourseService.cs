@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FreeCourse.Services.Catalog.Services
 {
-    internal class CourseService : ICourseService
+    public class CourseService : ICourseService
     {
         private readonly IMongoCollection<Course> _courseCollection;
         private readonly IMongoCollection<Category> _categoryCollection;
@@ -80,14 +80,14 @@ namespace FreeCourse.Services.Catalog.Services
             return Response<List<CourseDto>>.Success(_mapper.Map<List<CourseDto>>(courses), 200);
           
         }
-        public async Task<Response<List<CourseDto>>> CreateAsync(CourserCreateDto courserCreateDto)
+        public async Task<Response<CourseDto>> CreateAsync(CourserCreateDto courserCreateDto)
         {
             var newCourse = _mapper.Map<Course>(courserCreateDto);
 
             newCourse.CreatedTime = DateTime.Now;
             await _courseCollection.InsertOneAsync(newCourse);
 
-            return Response<List<CourseDto>>.Success(_mapper.Map<List<CourseDto>>(newCourse), 200);
+            return Response<CourseDto>.Success(_mapper.Map<CourseDto>(newCourse), 200);
         }
 
         public async Task<Response<NoContent>> UpdateAsync(CourseUpdateDto courseUpdateDto)
