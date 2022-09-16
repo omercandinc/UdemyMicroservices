@@ -15,6 +15,7 @@ namespace FreeCourse.Services.Catalog.Models
         [BsonRepresentation(BsonType.Decimal128)]
         public decimal Price { get; set; }
         public string Picture { get; set; }
+        public string UserId { get; set; }
 
         [BsonRepresentation(BsonType.DateTime)]
         public DateTime CreatedTime { get; set; }
